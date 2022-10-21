@@ -1,6 +1,8 @@
-﻿namespace CarDealer.DataAccess.Model.Repositories.Interfaces.Base
+﻿using CarDealer.DataAccess.Model.Base;
+
+namespace CarDealer.DataAccess.Model.Repositories.Interfaces.Base
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : Entity
     {
         TEntity Add(TEntity item);
         void Delete(TEntity item);

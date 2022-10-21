@@ -1,5 +1,6 @@
 ﻿using CarDealer.DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace CarDealer.DataAccess.Context
 {
@@ -12,7 +13,7 @@ namespace CarDealer.DataAccess.Context
         public DbSet<DealerCar> DealerCars { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        { 
             optionsBuilder.UseSqlServer(@"Server=(LocalDb)\LocalDB;Database=CarDealerDb;Trusted_Connection=true");
         }
 
