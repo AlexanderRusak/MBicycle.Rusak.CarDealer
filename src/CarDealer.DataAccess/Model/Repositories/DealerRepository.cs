@@ -1,53 +1,18 @@
 ﻿using CarDealer.DataAccess.Context;
+using CarDealer.DataAccess.Model.Repositories.Interfaces;
+using CarDealer.DataAccess.Model.Repositories.Interfaces.Base;
 
 namespace CarDealer.DataAccess.Model.Repositories
 {
-    public class DealerRepository : IRepository<Dealer>
+    public class DealerRepository : Repository<Dealer>, IDealerRepository
     {
-
-        private readonly CarDealerContext _context;
-
-        public DealerRepository(CarDealerContext context)
+        public DealerRepository(CarDealerContext context) : base(context)
         {
-            _context = context;
         }
 
-        public Dealer Add(Dealer item)
+        protected override Dealer CreateEntity(int id)
         {
-            var result = _context.Dealers.Add(item);
-            _context.SaveChanges();
-            return result.Entity;
-        }
-
-        public void Delete(Dealer item)
-        {
-            _context.Dealers.Remove(item);
-            _context.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-
-            var dealer = new Dealer { Id = id };
-            _context.Dealers.Attach(dealer);
-            Delete(dealer);
-        }
-
-        public ICollection<Dealer> Get()
-        {
-            return _context.Dealers.ToList();
-        }
-
-        public Dealer Get(int id)
-        {
-            var result = _context.Dealers.Where(dealer => dealer.Id == id).FirstOrDefault();
-            return result ??= new Dealer();
-        }
-
-        public void Update(Dealer item)
-        {
-            _context.Update(item);
-            _context.SaveChanges();
+            return new Dealer { Id = id };
         }
     }
 }

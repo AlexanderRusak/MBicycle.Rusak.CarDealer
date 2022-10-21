@@ -1,49 +1,26 @@
 ﻿using CarDealer.DataAccess.Context;
+using CarDealer.DataAccess.Model.Repositories.Interfaces;
+using CarDealer.DataAccess.Model.Repositories.Interfaces.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarDealer.DataAccess.Model.Repositories
 {
-    public class CarRepository : IRepository<Car>
+    public class CarRepository : Repository<Car>, ICarRepository
     {
         private readonly CarDealerContext _context;
-        public CarRepository(CarDealerContext context)
+        public CarRepository(CarDealerContext context) : base(context)
         {
             _context = context;
         }
-        public Car Add(Car item)
+
+        protected override Car CreateEntity(int id)
         {
-            var result = _context.Cars.Add(item);
-            _context.SaveChanges();
-            return result.Entity;
+            return new Car { Id = id };
         }
 
-        public void Delete(Car item)
+        public override ICollection<Car> Get()
         {
-            _context.Cars.Remove(item);
-            _context.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-            var carModel = new Car { Id = id };
-            _context.Cars.Attach(carModel);
-            Delete(carModel);
-        }
-
-        public ICollection<Car> Get()
-        {
-            return _context.Cars.ToList();
-        }
-
-        public Car Get(int id)
-        {
-            var result = _context.Cars.Where(carModel => carModel.Id == id).FirstOrDefault();
-            return result ??= new Car();
-        }
-
-        public void Update(Car item)
-        {
-            _context.Update(item);
-            _context.SaveChanges();
+            return _context.Cars.Include(x => x.Color).Include(x=>x.Brand).ToList();
         }
     }
 }
