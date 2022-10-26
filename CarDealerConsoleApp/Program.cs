@@ -1,16 +1,17 @@
 ﻿using CarDealer.DataAccess.Context;
 using CarDealer.DataAccess.Model;
 using CarDealer.DataAccess.Model.Repositories;
+using CarDealer.DataAccess.Model.Repositories.Interfaces;
 using CarDealer.DataAccess.UnitOfWork;
 
 using (var context = new CarDealerContext())
 {
-    var unitOfWork = new UnitOfWork(context);
-    var colorRepo = new ColorRepository(context);
-    var brandRepo = new BrandRepository(context);
-    var dealerRepo = new DealerRepository(context);
-    var dealerCarRepo = new DealerCarRepository(context);
-    var carRepo = new CarRepository(context);
+    IUnitOfWork unitOfWork = new UnitOfWork(context);
+    IColorRepository colorRepo = new ColorRepository(context);
+    IBrandRepository brandRepo = new BrandRepository(context);
+    IDealerRepository dealerRepo = new DealerRepository(context);
+    IDealerCarRepository dealerCarRepo = new DealerCarRepository(context);
+    ICarRepository carRepo = new CarRepository(context);
 
     try
     {
