@@ -19,8 +19,8 @@ namespace CarDealer.BusinessLogic
             {
                 Id = dealerCar.Id,
                 Brand = dealerCar.Car.Brand.Name,
-                Model = dealerCar.Car.Model,
                 Color = dealerCar.Car.Color.Name,
+                Model = dealerCar.Car.Model,
                 DealerName = dealerCar.Dealer.Name,
                 DealerPhone = dealerCar.Dealer.Phone,
                 Price = dealerCar.Price,

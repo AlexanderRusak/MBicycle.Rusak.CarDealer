@@ -1,6 +1,6 @@
 ﻿using CarDealer.DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
+
 
 namespace CarDealer.DataAccess.Context
 {
