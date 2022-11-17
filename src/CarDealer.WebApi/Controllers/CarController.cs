@@ -1,5 +1,8 @@
 ﻿using CarDealer.BusinessLogic;
+using CarDealer.BusinessLogic.Commands;
 using CarDealer.BusinessLogic.Dtos;
+using CarDealer.BusinessLogic.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarDealer.WebApi.Controllers
@@ -8,23 +11,34 @@ namespace CarDealer.WebApi.Controllers
     [Route("api/car")]
     public class CarController : ControllerBase
     {
-        private readonly IAllCarsService _car;
+        private readonly IMediator _mediator;
 
-        public CarController(IAllCarsService car)
+        public CarController(IMediator mediator)
         {
-            _car = car ?? throw new ArgumentNullException(nameof(car));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet("all")]
 
-        public IEnumerable<CarDto> Get()
+        public async Task<IActionResult> Get()
         {
-            return _car.GetAllCars();
+            var query = new GetAllCarsQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpPost]
+        public async Task<IActionResult> Post([FromBody] AddCarCommand command)
+        {
+            var result = await _mediator.Send(command);
 
-        public void Post() { }
+            if (result.Error)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
 
     }
 }

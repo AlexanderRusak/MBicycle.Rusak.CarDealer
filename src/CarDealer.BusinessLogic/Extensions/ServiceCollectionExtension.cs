@@ -11,9 +11,7 @@ namespace CarDealer.BusinessLogic.Extensions
         {
 
             services.AddSingleton(new CarDealerContext());
-            services.AddScoped<IAllDealersCarService, AllDealersCarService>();
             services.AddScoped<IDealerCarRepository, DealerCarRepository>();
-            services.AddScoped<IAllCarsService, AllCarsService>();
             services.AddScoped<ICarRepository, CarRepository>();
 
         }

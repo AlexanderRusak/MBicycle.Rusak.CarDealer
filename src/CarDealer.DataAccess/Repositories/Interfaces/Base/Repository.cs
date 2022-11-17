@@ -14,43 +14,43 @@ namespace CarDealer.DataAccess.Model.Repositories.Interfaces.Base
         {
             _context = context;
         }
-        public T Add(T item)
+        public async Task<T> AddAsync(T item)
         {
-            var result = _context.Set<T>().Add(item);
-            _context.SaveChanges();
+            var result = await _context.Set<T>().AddAsync(item);
+            await _context.SaveChangesAsync();
             return result.Entity;
         }
 
-        public void Delete(T item)
+        public async Task DeleteAsync(T item)
         {
             _context.Set<T>().Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = CreateEntity(id);
             _context.Set<T>().Attach(entity);
-            Delete(entity);
+            await DeleteAsync(entity);
         }
 
-        virtual public ICollection<T> Get()
+        public async Task<ICollection<T>> GetAsync()
         {
-            return _context.Set<T>().ToList();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T Get(int id)
+        public async Task<T> GetAsync(int id)
         {
-            var result = _context.Set<T>()
-                .FirstOrDefault(x => x.Id == id);
+            var result = await _context.Set<T>()
+                .FirstOrDefaultAsync(x => x.Id == id);
             result ??= CreateEntity(0);
             return result;
         }
 
-        public void Update(T item)
+        public async Task UpdateAsync(T item)
         {
             _context.Set<T>().Update(item);
-            _context.SaveChanges(true);
+            await _context.SaveChangesAsync(true);
         }
 
         protected abstract T CreateEntity(int id);

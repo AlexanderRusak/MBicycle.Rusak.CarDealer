@@ -19,7 +19,7 @@ namespace CarDealer.DataAccess.Model.Repositories
             return new DealerCar { Id = id };
         }
 
-        public override ICollection<DealerCar> Get()
+        public  ICollection<DealerCar> GetAsync()
         {
             return _context.DealerCars.Include(x => x.Dealer).Include(x => x.Car).Include(x=>x.Car.Brand).Include(x=>x.Car.Color).ToList();
         }

@@ -1,3 +1,5 @@
+using CarDealer.BusinessLogic.Queries;
+using MediatR;
 using CarDealer.BusinessLogic.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,14 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // not really
 
-builder.Services.AddBuisnessServices();
 
+builder.Services.AddBuisnessServices();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+builder.Services.AddMediatR(typeof(GetAllCarsQuery).Assembly);
+builder.Services.AddMediatR(typeof(GetAllDealerCarsQuery).Assembly);
+
+var app = builder.Build(); //todo Thrown an error
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

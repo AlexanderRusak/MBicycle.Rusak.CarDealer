@@ -1,20 +1,27 @@
 ﻿using CarDealer.BusinessLogic.Dtos;
+using CarDealer.BusinessLogic.Wrappers;
 using CarDealer.DataAccess.Model.Repositories.Interfaces;
+using MediatR;
 
-namespace CarDealer.BusinessLogic
+namespace CarDealer.BusinessLogic.Queries
 {
-    public class AllDealersCarService : IAllDealersCarService
+    public class GetAllDealerCarsQuery : IRequest<Result<IEnumerable<CarDealerDto>>>
     {
+    }
+
+    public class GetAllDealerCarsQueryHandler : IRequestHandler<GetAllDealerCarsQuery, Result<IEnumerable<CarDealerDto>>>
+    {
+
         private readonly IDealerCarRepository _dealerCarRepository;
 
-        public AllDealersCarService(IDealerCarRepository dealerCarRepository)
+        public GetAllDealerCarsQueryHandler(IDealerCarRepository dealerCarRepository)
         {
             _dealerCarRepository = dealerCarRepository ?? throw new ArgumentNullException(nameof(dealerCarRepository));
         }
 
-        public IEnumerable<CarDealerDto> GetAllDealersCar()
+        async Task<Result<IEnumerable<CarDealerDto>>> IRequestHandler<GetAllDealerCarsQuery, Result<IEnumerable<CarDealerDto>>>.Handle(GetAllDealerCarsQuery request, CancellationToken cancellationToken)
         {
-            var result = _dealerCarRepository.Get().Select(dealerCar =>
+            var result = (await _dealerCarRepository.GetAsync()).Select(dealerCar =>
             new CarDealerDto
             {
                 Id = dealerCar.Id,
@@ -27,7 +34,7 @@ namespace CarDealer.BusinessLogic
             }
             );
 
-            return result;
+            return Result.Success(result);
         }
     }
 }
