@@ -9,11 +9,12 @@ namespace CarDealer.BusinessLogic.Extensions
     {
         public static void AddBuisnessServices(this IServiceCollection services)
         {
-
             services.AddSingleton(new CarDealerContext());
-            services.AddScoped<IDealerCarRepository, DealerCarRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
-
+            services.AddScoped<IColorRepository, ColorRepository>();
+            services.AddScoped<IDealerCarRepository, DealerCarRepository>();
+            services.AddScoped<IDealerRepository, DealerRepository>();
         }
 
     }
