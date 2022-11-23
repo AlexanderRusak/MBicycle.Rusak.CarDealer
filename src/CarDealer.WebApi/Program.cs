@@ -15,7 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(typeof(GetAllCarsQuery).Assembly);
-builder.Services.AddMediatR(typeof(GetAllDealerCarsQuery).Assembly);
 
 var app = builder.Build(); //todo Thrown an error
 
